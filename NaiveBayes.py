@@ -26,6 +26,12 @@ def create_vocab_list(dataset):
     return list(vocab_set)
 
 def set_of_word2vec(vocab_list, input_set):
+    """
+    词集模型，特征只反应词是否出现在文档中
+    :param vocab_list:
+    :param input_set:
+    :return:
+    """
     return_vec = [0]*len(vocab_list)
     for word in input_set:
         if word in vocab_list:
@@ -33,6 +39,18 @@ def set_of_word2vec(vocab_list, input_set):
         else:
             print "the word %s not in my vocabulary !" % word
     return return_vec
+
+def bag_of_word2vec(vocab_list, input_set):
+    """
+    词袋模型，特征反应的是词在文档中出现了几次
+    :return:
+    """
+    return_vec = [0]*len(vocab_list)
+    for word in vocab_list:
+        if word in input_set:
+            return_vec[vocab_list.index(word)] += 1
+    return return_vec
+
 
 def train_nb(train_X, train_y):
     num_train_docs = len(train_X)
@@ -73,6 +91,7 @@ def classify(vec2classify, p0_vec, p1_vec, p_class1):
         return 1
     else:
         return 0
+
 
 if __name__ == '__main__':
     post_list,  class_list= load_dataset()
