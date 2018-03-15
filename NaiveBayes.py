@@ -81,5 +81,4 @@ if __name__ == '__main__':
     for post in post_list:
         train_mat.append(set_of_word2vec(vocab_list, post))
     p0v, p1v,pab = train_nb(train_mat, class_list)
-    pass
 
