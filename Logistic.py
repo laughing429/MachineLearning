@@ -19,7 +19,7 @@ def load_dataset():
     with open("logistic_dataset.txt", 'r') as f:
         for line in f.readlines():
             line_arr = line.strip().split()
-            # todo 为什么这里每条数据前面要加1.0
+            # 每条数据前面要加1.0，相当于是方程的截距
             data_mat.append([1.0, np.float(line_arr[0]), np.float(line_arr[1])])
             label_mat.append(np.int(line_arr[2]))
     return data_mat, label_mat
