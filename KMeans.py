@@ -24,6 +24,7 @@ def rand_cent(dataset, k):
     随机确定簇中心
     分别对每个特征随机取值
     """
+    dataset = np.mat(dataset)
     n = np.shape(dataset)[1]
     cent_roids = np.mat(np.zeros((k, n)))
     for j in range(n):
@@ -33,6 +34,8 @@ def rand_cent(dataset, k):
     return cent_roids
 
 def kmeans(dataset, k, distmeas=dist_clud, create_cent=rand_cent):
+    if not isinstance(dataset, np.matrix):
+        dataset = np.mat(dataset)
     m = np.shape(dataset)[0]
     cluster_assment = np.mat(np.zeros((m, 2))) # 每个点的簇分配结果
     cent_roids = create_cent(dataset, k)
@@ -43,7 +46,7 @@ def kmeans(dataset, k, distmeas=dist_clud, create_cent=rand_cent):
             min_dist = np.inf
             min_index = -1
             for j in range(k):
-                distJI = distmeas(cent_roids[j, :], dataset[i, :])
+                distJI = distmeas(cent_roids[j, :], dataset[i, :]) # 计算与簇中心的距离
                 if distJI < min_dist:
                     min_dist = distJI
                     min_index = j
@@ -51,11 +54,14 @@ def kmeans(dataset, k, distmeas=dist_clud, create_cent=rand_cent):
                 cluster_changed = True
             cluster_assment[i, :] = min_index, min_dist**2
         print cent_roids
+
         for cent in range(k):
-            pts_in_clust = dataset[np.nonzero(cluster_assment[:, 0].A == cent)[0]]
+            pts_in_clust = dataset[np.nonzero(cluster_assment[:, 0].A == cent)[0]] # nonzero 返回非0值的下标pt
             cent_roids[cent, :] = np.mean(pts_in_clust, axis=0)
     return cent_roids, cluster_assment
 
 
 if __name__ == '__main__':
-    load_data_set("kmeans_testset.txt")
+    dataset = load_data_set("kmeans_testset.txt")
+    # rand_cent(dataset, 3)
+    kmeans(dataset, 3)
