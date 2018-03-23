@@ -52,7 +52,7 @@ def kmeans(dataset, k, distmeas=dist_clud, create_cent=rand_cent):
                     min_index = j
             if cluster_assment[i,0] != min_index:
                 cluster_changed = True
-            cluster_assment[i, :] = min_index, min_dist**2
+            cluster_assment[i, :] = min_index, min_dist**2 # 这里取了距离的平方,对距离中心较远的点更加重视
         print cent_roids
 
         for cent in range(k):
